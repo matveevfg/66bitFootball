@@ -1,0 +1,82 @@
+﻿@page
+@model _66bitFootball.Pages.Players.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Player</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Player.Name" class="control-label"></label>
+                <input asp-for="Player.Name" class="form-control" />
+                <span asp-validation-for="Player.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Player.Surname" class="control-label"></label>
+                <input asp-for="Player.Surname" class="form-control" />
+                <span asp-validation-for="Player.Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Player.Gender" class="control-label"></label>
+                <select asp-for="Player.Gender" asp-items="Model.Genders" class="form-control"></select>
+                <span asp-validation-for="Player.Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Player.DateOfBirth" class="control-label"></label>
+                <input asp-for="Player.DateOfBirth" class="form-control" />
+                <span asp-validation-for="Player.DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Player.Country" class="control-label"></label>
+                <select asp-for="Player.Country" asp-items="Model.Countrys" class="form-control"></select>
+                <span asp-validation-for="Player.Country" class="text-danger"></span>
+            </div>
+            @if (Model.Teams.Any())
+            {
+                <div class="form-group" id="ExistingTeam">
+                    <label asp-for="Player.TeamId" class="control-label"></label>
+                    <select asp-for="Player.TeamId" class="form-control" asp-items="Model.Teams"></select>
+                </div>
+            }
+            <div class="form-group" id="NewTeam">
+                <label asp-for="NewTeamName" class="control-label"></label>
+                <input asp-for="NewTeamName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const existingTeam = document.querySelector('#ExistingTeam');
+        const newTeamField = document.querySelector('#NewTeamName');
+
+        newTeamField.addEventListener('input', () => {
+            const isEmpty = newTeamField.value.length === 0;
+            if (!isEmpty) {
+                existingTeam.style.display = 'none';
+            }
+            else {
+                existingTeam.style.display = 'block';
+            }
+        })
+    </script>
+}
+
